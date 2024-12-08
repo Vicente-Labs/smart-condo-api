@@ -8,6 +8,8 @@ interface CondominiumProps {
   address: string
   ownerId: UniqueEntityId
   slug?: Slug
+  createdAt: Date
+  updatedAt?: Date
 }
 
 export class Condominium extends Entity<CondominiumProps> {
@@ -25,5 +27,13 @@ export class Condominium extends Entity<CondominiumProps> {
 
   get slug() {
     return this.props.slug
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 }

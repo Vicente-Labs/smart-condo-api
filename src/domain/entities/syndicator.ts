@@ -4,8 +4,10 @@ interface SyndicatorProps {
   name: string
   email: string
   phone: string
-  avatarUrl: string | null
+  avatarUrl?: string | null
   condominiumId: UniqueEntityId
+  createdAt: Date
+  updatedAt?: Date
 }
 
 export class Syndicator extends Entity<SyndicatorProps> {
@@ -27,5 +29,13 @@ export class Syndicator extends Entity<SyndicatorProps> {
 
   get condominiumId() {
     return this.props.condominiumId
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 }
