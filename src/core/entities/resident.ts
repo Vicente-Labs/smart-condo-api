@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
-interface ResidentProps {
+export interface ResidentProps {
   name: string
   email: string
   phone: string
