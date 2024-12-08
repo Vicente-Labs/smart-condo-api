@@ -2,6 +2,7 @@ import { makeCondominium } from 'test/factories/make-condominium'
 import { makeResident } from 'test/factories/make-resident'
 import { InMemoryCondominiumRepository } from 'test/repositories/in-memory-condominium-repository'
 import { InMemoryMaintenanceRequestRepository } from 'test/repositories/in-memory-maintenance-request-repository'
+import { InMemoryResidentsRepository } from 'test/repositories/in-memory-residents-repository'
 
 import { MaintenanceRequest } from '@/core/entities/maintenance-request'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
@@ -10,12 +11,14 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import { RegisterMaintenanceRequestUseCase } from './register-maintenance-request'
 
 let inMemoryCondominiumRepository: InMemoryCondominiumRepository
+let inMemoryResidentsRepository: InMemoryResidentsRepository
 let inMemoryMaintenanceRequestRepository: InMemoryMaintenanceRequestRepository
 let sut: RegisterMaintenanceRequestUseCase
 
 describe('Register maintenance request use case', () => {
   beforeEach(() => {
     inMemoryCondominiumRepository = new InMemoryCondominiumRepository()
+    inMemoryResidentsRepository = new InMemoryResidentsRepository()
     inMemoryMaintenanceRequestRepository =
       new InMemoryMaintenanceRequestRepository()
     sut = new RegisterMaintenanceRequestUseCase(
@@ -32,10 +35,11 @@ describe('Register maintenance request use case', () => {
       condominiumId: condominium.id,
     })
 
+    inMemoryResidentsRepository.create(author)
     inMemoryCondominiumRepository.create(condominium)
 
     const maintenanceRequestData = {
-      name: 'Maintenance Request',
+      title: 'Maintenance Request',
       description: 'Maintenance Request Description',
       condominiumId: condominium.id.toValue(),
       authorId: author.id.toValue(),
@@ -58,7 +62,7 @@ describe('Register maintenance request use case', () => {
 
   it('should not be able to register a maintenance request with a non-existent condominium', async () => {
     const maintenanceRequestData = {
-      name: 'Maintenance Request',
+      title: 'Maintenance Request',
       description: 'Maintenance Request Description',
       condominiumId: 'non-existent-condominium-id',
       authorId: 'non-existent-author-id',

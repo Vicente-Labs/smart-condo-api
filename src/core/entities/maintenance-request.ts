@@ -1,8 +1,8 @@
 import { Entity } from './entity'
 import type { UniqueEntityId } from './unique-entity-id'
 
-interface MaintenanceRequestProps {
-  name: string
+export interface MaintenanceRequestProps {
+  title: string
   description: string
   authorId: UniqueEntityId
   condominiumId: UniqueEntityId
@@ -28,12 +28,12 @@ export class MaintenanceRequest extends Entity<MaintenanceRequestProps> {
     this.props.updatedAt = new Date()
   }
 
-  get name() {
-    return this.props.name
+  get title() {
+    return this.props.title
   }
 
-  set name(name: string) {
-    this.props.name = name
+  set title(title: string) {
+    this.props.title = title
 
     this.touch()
   }

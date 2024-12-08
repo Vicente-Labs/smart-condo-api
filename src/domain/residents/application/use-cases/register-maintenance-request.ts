@@ -5,7 +5,7 @@ import type { CondominiumRepository } from '@/core/repositories/condominium-repo
 import type { MaintenanceRequestRepository } from '@/core/repositories/maintenance-repository'
 
 type RegisterMaintenanceRequestUseCaseInput = {
-  name: string
+  title: string
   description: string
   condominiumId: string
   commonAreaId?: string | null
@@ -19,7 +19,7 @@ export class RegisterMaintenanceRequestUseCase {
   ) {}
 
   async execute({
-    name,
+    title,
     description,
     condominiumId,
     commonAreaId,
@@ -30,7 +30,7 @@ export class RegisterMaintenanceRequestUseCase {
     if (!condominium) throw new ResourceNotFoundError('Condominium not found')
 
     const maintenanceRequest = MaintenanceRequest.create({
-      name,
+      title,
       description,
       authorId: new UniqueEntityId(authorId),
       condominiumId: new UniqueEntityId(condominiumId),

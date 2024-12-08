@@ -17,4 +17,14 @@ export class InMemoryMaintenanceRequestRepository
 
     return maintenanceRequest ?? null
   }
+
+  async findManyByCondominiumId(
+    condominiumId: string,
+  ): Promise<MaintenanceRequest[]> {
+    const maintenanceRequests = this.maintenanceRequests.filter(
+      (mr) => mr.condominiumId.value === condominiumId,
+    )
+
+    return maintenanceRequests
+  }
 }
