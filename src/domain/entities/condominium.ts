@@ -1,11 +1,12 @@
 import { Entity } from '@/core/entities/entity'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { Slug } from './value-objects/slug'
 
 interface CondominiumProps {
   name: string
   address: string
-  ownerId: string
+  ownerId: UniqueEntityId
   slug?: Slug
 }
 
