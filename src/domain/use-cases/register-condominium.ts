@@ -8,6 +8,6 @@ type RegisterCondominiumUseCaseInput = {
 
 export class RegisterCondominiumUseCase {
   execute({ name, address, userId }: RegisterCondominiumUseCaseInput) {
-    return new Condominium(name, address, userId)
+    return new Condominium({ name, address, ownerId: userId })
   }
 }
