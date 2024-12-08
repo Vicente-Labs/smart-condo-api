@@ -1,4 +1,4 @@
-import { Condominium } from '../entitites/condominium'
+import { Condominium } from '../entities/condominium'
 
 type RegisterCondominiumUseCaseInput = {
   name: string

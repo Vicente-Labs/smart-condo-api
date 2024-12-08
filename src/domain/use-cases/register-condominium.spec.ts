@@ -1,4 +1,4 @@
-import { Condominium } from '../entitites/condominium'
+import { Condominium } from '../entities/condominium'
 import { RegisterCondominiumUseCase } from './register-condominium'
 
 let sut: RegisterCondominiumUseCase
