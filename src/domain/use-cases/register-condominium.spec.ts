@@ -1,15 +1,19 @@
+import { InMemoryCondominiumRepository } from 'test/repositories/in-memory-condominium-repository'
+
 import { Condominium } from '../entities/condominium'
 import { RegisterCondominiumUseCase } from './register-condominium'
 
+let inMemoryCondominiumRepository: InMemoryCondominiumRepository
 let sut: RegisterCondominiumUseCase
 
 describe('Register condominium use case', () => {
   beforeEach(() => {
-    sut = new RegisterCondominiumUseCase()
+    inMemoryCondominiumRepository = new InMemoryCondominiumRepository()
+    sut = new RegisterCondominiumUseCase(inMemoryCondominiumRepository)
   })
 
-  it('should be able to register a condominium', () => {
-    const result = sut.execute({
+  it('should be able to register a condominium', async () => {
+    const result = await sut.execute({
       name: 'Condominium',
       address: 'Address',
       userId: 'user-id',
