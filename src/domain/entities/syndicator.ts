@@ -1,18 +1,16 @@
-import { randomUUID } from 'node:crypto'
+import { Entity } from '@/core/entities/entity'
 
 interface SyndicatorProps {
-  name: string
+  syndicatorId: string
   condominiumId: string
 }
 
-export class Syndicator {
-  public id: string
-  public name: string
-  public condominiumId: string
+export class Syndicator extends Entity<SyndicatorProps> {
+  get syndicatorId() {
+    return this.props.syndicatorId
+  }
 
-  constructor(props: SyndicatorProps, id?: string) {
-    this.id = id ?? randomUUID()
-    this.name = props.name
-    this.condominiumId = props.condominiumId
+  get condominiumId() {
+    return this.props.condominiumId
   }
 }

@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto'
+import { Entity } from '@/core/entities/entity'
 
 import { Slug } from './value-objects/slug'
 
@@ -9,18 +9,20 @@ interface CondominiumProps {
   slug?: Slug
 }
 
-export class Condominium {
-  public id: string
-  public name: string
-  public address: string
-  public ownerId: string
-  public slug: Slug
+export class Condominium extends Entity<CondominiumProps> {
+  get name() {
+    return this.props.name
+  }
 
-  constructor(props: CondominiumProps, id?: string) {
-    this.name = props.name
-    this.address = props.address
-    this.ownerId = props.ownerId
-    this.slug = props.slug ?? Slug.createFromText(props.name)
-    this.id = id ?? randomUUID()
+  get address() {
+    return this.props.address
+  }
+
+  get ownerId() {
+    return this.props.ownerId
+  }
+
+  get slug() {
+    return this.props.slug
   }
 }
