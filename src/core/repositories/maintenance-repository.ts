@@ -5,4 +5,5 @@ export interface MaintenanceRequestRepository {
   findById(id: string): Promise<MaintenanceRequest | null>
   findManyByCondominiumId(condominiumId: string): Promise<MaintenanceRequest[]>
   makeDone(maintenanceRequest: MaintenanceRequest): Promise<void>
+  cancel(maintenanceRequest: MaintenanceRequest): Promise<void>
 }

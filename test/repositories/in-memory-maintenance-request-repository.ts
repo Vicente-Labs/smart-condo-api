@@ -31,4 +31,8 @@ export class InMemoryMaintenanceRequestRepository
   async makeDone(maintenanceRequest: MaintenanceRequest): Promise<void> {
     maintenanceRequest.setDone()
   }
+
+  async cancel(maintenanceRequest: MaintenanceRequest): Promise<void> {
+    maintenanceRequest.setCanceled()
+  }
 }
