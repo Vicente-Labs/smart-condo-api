@@ -3,7 +3,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { Slug } from './value-objects/slug'
 
-interface CondominiumProps {
+export interface CondominiumProps {
   name: string
   address: string
   ownerId: UniqueEntityId
