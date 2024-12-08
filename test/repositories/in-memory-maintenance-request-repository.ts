@@ -35,4 +35,8 @@ export class InMemoryMaintenanceRequestRepository
   async cancel(maintenanceRequest: MaintenanceRequest): Promise<void> {
     maintenanceRequest.setCanceled()
   }
+
+  async startProgress(maintenanceRequest: MaintenanceRequest): Promise<void> {
+    maintenanceRequest.startProgress()
+  }
 }

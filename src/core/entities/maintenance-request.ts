@@ -7,7 +7,7 @@ export interface MaintenanceRequestProps {
   authorId: UniqueEntityId
   condominiumId: UniqueEntityId
   commonAreaId?: UniqueEntityId | null
-  status?: 'pending' | 'done' | 'canceled'
+  status?: 'pending' | 'in_progress' | 'done' | 'canceled'
   createdAt?: Date | null
   updatedAt?: Date | null
 }
@@ -86,6 +86,12 @@ export class MaintenanceRequest extends Entity<MaintenanceRequestProps> {
 
   setDone() {
     this.props.status = 'done'
+
+    this.touch()
+  }
+
+  startProgress() {
+    this.props.status = 'in_progress'
 
     this.touch()
   }

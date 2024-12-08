@@ -6,4 +6,5 @@ export interface MaintenanceRequestRepository {
   findManyByCondominiumId(condominiumId: string): Promise<MaintenanceRequest[]>
   makeDone(maintenanceRequest: MaintenanceRequest): Promise<void>
   cancel(maintenanceRequest: MaintenanceRequest): Promise<void>
+  startProgress(maintenanceRequest: MaintenanceRequest): Promise<void>
 }
