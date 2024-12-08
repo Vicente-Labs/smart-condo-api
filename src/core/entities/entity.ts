@@ -9,7 +9,7 @@ export class Entity<T> {
   }
 
   public Equals(entity: Entity<unknown>): boolean {
-    return entity === this ?? entity.id === this._id
+    return entity === this || entity.id === this._id
   }
 
   constructor(props: T, id?: UniqueEntityId) {
