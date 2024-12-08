@@ -4,6 +4,7 @@ import { InMemoryResidentsRepository } from 'test/repositories/in-memory-residen
 
 import { Resident } from '@/core/entities/resident'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 
 import { RegisterResidentUseCase } from './register-resident'
 
@@ -44,6 +45,19 @@ describe('Register resident use case', () => {
         ...residentData,
         condominiumId: condominium.id,
       }),
+    )
+  })
+
+  it('should not be able to register a resident with a non-existent condominium', async () => {
+    const residentData = {
+      name: 'Resident',
+      email: 'resident@example.com',
+      phone: '1234567890',
+      condominiumId: 'non-existent-condominium-id',
+    }
+
+    await expect(sut.execute(residentData)).rejects.toBeInstanceOf(
+      ResourceNotFoundError,
     )
   })
 })

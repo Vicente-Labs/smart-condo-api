@@ -1,5 +1,6 @@
 import { Resident } from '@/core/entities/resident'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import type { CondominiumRepository } from '@/core/repositories/condominium-repository'
 import type { ResidentsRepository } from '@/core/repositories/residents-repository'
 
@@ -24,7 +25,7 @@ export class RegisterResidentUseCase {
   }: RegisterResidentUseCaseInput) {
     const condominium = await this.condominiumRepository.findById(condominiumId)
 
-    if (!condominium) throw new Error('Condominium not found.')
+    if (!condominium) throw new ResourceNotFoundError('Condominium not found')
 
     const resident = Resident.create({
       name,
