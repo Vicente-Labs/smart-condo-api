@@ -68,8 +68,8 @@ describe('Register maintenance request use case', () => {
       authorId: 'non-existent-author-id',
     }
 
-    expect(async () => {
-      await sut.execute(maintenanceRequestData)
-    }).rejects.toBeInstanceOf(ResourceNotFoundError)
+    await expect(sut.execute(maintenanceRequestData)).rejects.toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 })

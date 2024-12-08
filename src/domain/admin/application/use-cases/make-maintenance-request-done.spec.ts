@@ -4,83 +4,55 @@ import { makeResident } from 'test/factories/make-resident'
 import { InMemoryCondominiumRepository } from 'test/repositories/in-memory-condominium-repository'
 import { InMemoryMaintenanceRequestRepository } from 'test/repositories/in-memory-maintenance-request-repository'
 import { InMemoryResidentsRepository } from 'test/repositories/in-memory-residents-repository'
-import { InMemorySyndicatorRepository } from 'test/repositories/in-memory-syndicator-repository'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
-import { FetchMaintenanceRequestUseCase } from './fetch-maintenance-request'
+import { MakeMaintenanceRequestDoneUseCase } from './make-maintenance-request-done'
 
 let inMemoryCondominiumRepository: InMemoryCondominiumRepository
 let inMemoryResidentsRepository: InMemoryResidentsRepository
 let inMemoryMaintenanceRequestRepository: InMemoryMaintenanceRequestRepository
-let inMemorySyndicatorRepository: InMemorySyndicatorRepository
-let sut: FetchMaintenanceRequestUseCase
+let sut: MakeMaintenanceRequestDoneUseCase
 
-describe('Fetch maintenance request use case', () => {
+describe('Make maintenance request done use case', () => {
   beforeEach(() => {
     inMemoryCondominiumRepository = new InMemoryCondominiumRepository()
     inMemoryResidentsRepository = new InMemoryResidentsRepository()
     inMemoryMaintenanceRequestRepository =
       new InMemoryMaintenanceRequestRepository()
-    inMemorySyndicatorRepository = new InMemorySyndicatorRepository()
-    sut = new FetchMaintenanceRequestUseCase(
-      inMemorySyndicatorRepository,
-      inMemoryCondominiumRepository,
-      inMemoryMaintenanceRequestRepository,
+    sut = new MakeMaintenanceRequestDoneUseCase(
       inMemoryResidentsRepository,
+      inMemoryMaintenanceRequestRepository,
     )
   })
 
-  it('should be able to fetch maintenance requests', async () => {
+  it('should be able to make a maintenance request done', async () => {
     const userId = new UniqueEntityId('user-id')
 
     const condominium = makeCondominium({ ownerId: userId })
     const resident = makeResident({ condominiumId: condominium.id })
     const maintenanceRequest = makeMaintenanceRequest({
-      condominiumId: condominium.id,
       authorId: resident.id,
+      condominiumId: condominium.id,
     })
 
     inMemoryMaintenanceRequestRepository.create(maintenanceRequest)
     inMemoryCondominiumRepository.create(condominium)
     inMemoryResidentsRepository.create(resident)
 
-    const result = await sut.execute({
-      condominiumId: condominium.id.toValue(),
-      userId: userId.toValue(),
+    await sut.execute({
+      userId: resident.id.toValue(),
+      maintenanceRequestId: maintenanceRequest.id.toValue(),
     })
 
-    expect(result).toBeInstanceOf(Array)
     expect(
-      inMemoryMaintenanceRequestRepository.maintenanceRequests.length,
-    ).toEqual(result.length)
+      inMemoryMaintenanceRequestRepository.maintenanceRequests[0].id,
+    ).toEqual(maintenanceRequest.id)
     expect(inMemoryMaintenanceRequestRepository.maintenanceRequests[0]).toEqual(
       expect.objectContaining({
         ...maintenanceRequest,
         condominiumId: condominium.id,
       }),
     )
-  })
-
-  it('should not be able to fetch maintenance requests from another condominium', async () => {
-    const userId = new UniqueEntityId('user-id')
-
-    const condominium = makeCondominium({ ownerId: userId })
-    const maintenanceRequest = makeMaintenanceRequest({
-      condominiumId: condominium.id,
-    })
-
-    const anotherUserId = new UniqueEntityId('another-user-id')
-
-    inMemoryMaintenanceRequestRepository.create(maintenanceRequest)
-    inMemoryCondominiumRepository.create(condominium)
-
-    await expect(
-      sut.execute({
-        condominiumId: condominium.id.toValue(),
-        userId: anotherUserId.toValue(),
-      }),
-    ).rejects.toBeInstanceOf(NotAllowedError)
   })
 })

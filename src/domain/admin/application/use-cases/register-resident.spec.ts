@@ -56,8 +56,8 @@ describe('Register resident use case', () => {
       condominiumId: 'non-existent-condominium-id',
     }
 
-    expect(async () => {
-      await sut.execute(residentData)
-    }).rejects.toBeInstanceOf(ResourceNotFoundError)
+    await expect(sut.execute(residentData)).rejects.toBeInstanceOf(
+      ResourceNotFoundError,
+    )
   })
 })

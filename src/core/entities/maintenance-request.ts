@@ -7,6 +7,7 @@ export interface MaintenanceRequestProps {
   authorId: UniqueEntityId
   condominiumId: UniqueEntityId
   commonAreaId?: UniqueEntityId | null
+  status?: 'pending' | 'done' | 'canceled'
   createdAt?: Date | null
   updatedAt?: Date | null
 }
@@ -17,6 +18,7 @@ export class MaintenanceRequest extends Entity<MaintenanceRequestProps> {
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
+        status: props.status ?? 'pending',
       },
       id,
     )
@@ -74,6 +76,22 @@ export class MaintenanceRequest extends Entity<MaintenanceRequestProps> {
 
   set commonAreaId(commonAreaId: UniqueEntityId | null) {
     this.props.commonAreaId = commonAreaId
+
+    this.touch()
+  }
+
+  get status() {
+    return this.props.status
+  }
+
+  setDone() {
+    this.props.status = 'done'
+
+    this.touch()
+  }
+
+  setCanceled() {
+    this.props.status = 'canceled'
 
     this.touch()
   }
