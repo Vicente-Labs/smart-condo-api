@@ -1,3 +1,5 @@
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
 import { Condominium } from '../entities/condominium'
 import type { CondominiumRepository } from '../repositories/condominium-repository'
 
@@ -11,7 +13,11 @@ export class RegisterCondominiumUseCase {
   constructor(private condominiumRepository: CondominiumRepository) {}
 
   async execute({ name, address, userId }: RegisterCondominiumUseCaseInput) {
-    const condominium = new Condominium({ name, address, ownerId: userId })
+    const condominium = Condominium.create({
+      name,
+      address,
+      ownerId: new UniqueEntityId(userId),
+    })
 
     await this.condominiumRepository.create(condominium)
 

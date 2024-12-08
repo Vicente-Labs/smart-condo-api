@@ -1,5 +1,7 @@
 import { InMemoryCondominiumRepository } from 'test/repositories/in-memory-condominium-repository'
 
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
 import { Condominium } from '../entities/condominium'
 import { RegisterCondominiumUseCase } from './register-condominium'
 
@@ -13,17 +15,19 @@ describe('Register condominium use case', () => {
   })
 
   it('should be able to register a condominium', async () => {
+    const userId = new UniqueEntityId('user-id')
+
     const result = await sut.execute({
       name: 'Condominium',
       address: 'Address',
-      userId: 'user-id',
+      userId: userId.toValue(),
     })
 
     expect(result).toBeInstanceOf(Condominium)
-    expect(result).toEqual(
+    expect(inMemoryCondominiumRepository.condominiums[0].id).toEqual(result.id)
+    expect(inMemoryCondominiumRepository.condominiums[0]).toEqual(
       expect.objectContaining({
-        id: expect.any(String),
-        ownerId: 'user-id',
+        ownerId: userId,
         name: 'Condominium',
         address: 'Address',
       }),

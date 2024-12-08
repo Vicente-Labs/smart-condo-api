@@ -1,8 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
-import type { Resident } from './resident'
-import type { Syndicator } from './syndicator'
 import { Slug } from './value-objects/slug'
 
 interface CondominiumProps {
@@ -10,15 +8,23 @@ interface CondominiumProps {
   address: string
   ownerId: UniqueEntityId
   slug?: Slug
-  residentsCount: number
-  residents: Resident[]
-  syndicatorCount: number
-  syndicators: Syndicator[]
-  createdAt: Date
-  updatedAt?: Date
+  createdAt?: Date | null
+  updatedAt?: Date | null
 }
 
 export class Condominium extends Entity<CondominiumProps> {
+  static create(props: CondominiumProps, id?: UniqueEntityId) {
+    const condominium = new Condominium(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    )
+
+    return condominium
+  }
+
   get name() {
     return this.props.name
   }
@@ -41,21 +47,5 @@ export class Condominium extends Entity<CondominiumProps> {
 
   get updatedAt() {
     return this.props.updatedAt
-  }
-
-  get residentsCount() {
-    return this.props.residentsCount
-  }
-
-  get syndicatorCount() {
-    return this.props.syndicatorCount
-  }
-
-  get syndicators() {
-    return this.props.syndicators
-  }
-
-  get residents() {
-    return this.props.residents
   }
 }

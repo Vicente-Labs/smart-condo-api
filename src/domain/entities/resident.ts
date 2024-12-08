@@ -7,11 +7,23 @@ interface ResidentProps {
   phone: string
   avatarUrl?: string | null
   condominiumId: UniqueEntityId
-  createdAt: Date
-  updatedAt?: Date
+  createdAt?: Date | null
+  updatedAt?: Date | null
 }
 
 export class Resident extends Entity<ResidentProps> {
+  static create(props: ResidentProps, id?: UniqueEntityId) {
+    const resident = new Resident(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    )
+
+    return resident
+  }
+
   get name() {
     return this.props.name
   }
