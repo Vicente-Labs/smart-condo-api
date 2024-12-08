@@ -1,8 +1,8 @@
 import { InMemoryCondominiumRepository } from 'test/repositories/in-memory-condominium-repository'
 
+import { Condominium } from '@/core/entities/condominium'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
-import { Condominium } from '../entities/condominium'
 import { RegisterCondominiumUseCase } from './register-condominium'
 
 let inMemoryCondominiumRepository: InMemoryCondominiumRepository

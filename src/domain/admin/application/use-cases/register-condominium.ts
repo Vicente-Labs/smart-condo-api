@@ -1,7 +1,6 @@
+import { Condominium } from '@/core/entities/condominium'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-
-import { Condominium } from '../entities/condominium'
-import type { CondominiumRepository } from '../repositories/condominium-repository'
+import type { CondominiumRepository } from '@/core/repositories/condominium-repository'
 
 type RegisterCondominiumUseCaseInput = {
   name: string

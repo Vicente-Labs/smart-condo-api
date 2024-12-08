@@ -1,4 +1,4 @@
-import type { Condominium } from '@/domain/entities/condominium'
+import type { Condominium } from '@/core/entities/condominium'
 import type { CondominiumRepository } from '@/domain/repositories/condominium-repository'
 
 export class InMemoryCondominiumRepository implements CondominiumRepository {
